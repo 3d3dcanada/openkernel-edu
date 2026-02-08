@@ -1,0 +1,45 @@
+{
+  "app": {
+    "title": "OpenKernel EDU",
+    "subtitle": "इमोजी से कंप्यूटर विज्ञान सीखें",
+    "tagline": "दुनिया का सबसे सुलभ कंप्यूटर विज्ञान शिक्षा मंच"
+  },
+  "nav": {
+    "editor": "संपादक",
+    "tutorials": "ट्यूटोरियल",
+    "examples": "उदाहरण",
+    "reference": "संदर्भ",
+    "settings": "सेटिंग्स"
+  },
+  "editor": {
+    "placeholder": "अपना इमोजी प्रोग्राम यहाँ लिखें...",
+    "run": "चलाएं",
+    "step": "कदम",
+    "reset": "रीसेट",
+    "speed": "गति"
+  },
+  "cpu": {
+    "title": "CPU रजिस्टर",
+    "register": "रजिस्टर",
+    "value": "मान"
+  },
+  "console": {
+    "title": "आउटपुट कंसोल",
+    "empty": "आउटपुट देखने के लिए प्रोग्राम चलाएं",
+    "error": "त्रुटि",
+    "success": "प्रोग्राम सफलतापूर्वक पूरा हुआ!"
+  },
+  "tutorial": {
+    "title": "ट्यूटोरियल",
+    "step": "चरण {{current}} / {{total}}",
+    "hint": "संकेत",
+    "next": "अगला",
+    "previous": "पिछला",
+    "complete": "पूर्ण!",
+    "difficulty": {
+      "beginner": "शुरुआती",
+      "intermediate": "मध्यवर्ती",
+      "advanced": "उन्नत"
+    }
+  }
+}

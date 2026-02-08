@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "OpenKernel EDU",
+    "subtitle": "用表情符号学习计算机科学",
+    "tagline": "世界上最易访问的计算机科学教育平台"
+  },
+  "nav": {
+    "editor": "编辑器",
+    "tutorials": "教程",
+    "examples": "示例",
+    "reference": "参考",
+    "settings": "设置"
+  },
+  "editor": {
+    "placeholder": "在这里编写你的表情程序...",
+    "run": "运行",
+    "step": "单步",
+    "reset": "重置",
+    "speed": "速度",
+    "lineCount": "{{count}} 行"
+  },
+  "cpu": {
+    "title": "CPU 寄存器",
+    "register": "寄存器",
+    "value": "值",
+    "programCounter": "程序计数器",
+    "flags": "标志位",
+    "cycles": "周期"
+  },
+  "console": {
+    "title": "输出控制台",
+    "empty": "运行程序以查看输出",
+    "error": "错误",
+    "success": "程序成功完成！"
+  },
+  "tutorial": {
+    "title": "教程",
+    "progress": "进度",
+    "step": "第 {{current}} 步，共 {{total}} 步",
+    "hint": "提示",
+    "next": "下一步",
+    "previous": "上一步",
+    "complete": "完成！",
+    "tryIt": "试试看！",
+    "difficulty": {
+      "beginner": "初级",
+      "intermediate": "中级",
+      "advanced": "高级"
+    }
+  }
+}

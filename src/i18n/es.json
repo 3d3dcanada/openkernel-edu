@@ -1,0 +1,71 @@
+{
+  "app": {
+    "title": "OpenKernel EDU",
+    "subtitle": "Aprende Ciencias de la Computación con Emoji",
+    "tagline": "La plataforma de educación en CS más accesible del mundo"
+  },
+  "nav": {
+    "editor": "Editor",
+    "tutorials": "Tutoriales",
+    "examples": "Ejemplos",
+    "reference": "Referencia",
+    "settings": "Configuración"
+  },
+  "editor": {
+    "placeholder": "Escribe tu programa emoji aquí...",
+    "run": "Ejecutar",
+    "step": "Paso",
+    "reset": "Reiniciar",
+    "speed": "Velocidad",
+    "lineCount": "{{count}} líneas"
+  },
+  "cpu": {
+    "title": "Registros de CPU",
+    "register": "Registro",
+    "value": "Valor",
+    "programCounter": "Contador de Programa",
+    "stackPointer": "Puntero de Pila",
+    "flags": "Banderas",
+    "zero": "Cero",
+    "negative": "Negativo",
+    "cycles": "Ciclos"
+  },
+  "memory": {
+    "title": "Memoria (256 bytes)",
+    "address": "Dirección",
+    "value": "Valor",
+    "used": "{{count}} bytes usados"
+  },
+  "console": {
+    "title": "Consola de Salida",
+    "empty": "Ejecuta un programa para ver la salida aquí",
+    "error": "Error",
+    "success": "¡Programa completado exitosamente!",
+    "running": "Ejecutando...",
+    "halted": "Programa detenido"
+  },
+  "tutorial": {
+    "title": "Tutoriales",
+    "progress": "Progreso",
+    "step": "Paso {{current}} de {{total}}",
+    "hint": "Mostrar Pista",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "complete": "¡Completo!",
+    "tryIt": "¡Inténtalo!",
+    "difficulty": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "minutes": "{{count}} min"
+  },
+  "errors": {
+    "unknownInstruction": "Instrucción desconocida: \"{{emoji}}\"",
+    "divisionByZero": "¡División por cero!",
+    "stackUnderflow": "La pila está vacía - ¡nada que sacar!",
+    "memoryOutOfBounds": "Dirección de memoria {{address}} fuera de límites (0-255)",
+    "infiniteLoop": "Posible bucle infinito detectado. Programa detenido después de {{cycles}} ciclos.",
+    "noHalt": "Tu programa no tiene una instrucción ⏹️ (HALT) al final."
+  }
+}

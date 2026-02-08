@@ -1,0 +1,30 @@
+:root {
+    --ifm-color-primary: #FF6B6B;
+    --ifm-color-primary-dark: #cc5656;
+    --ifm-color-primary-darker: #c15151;
+    --ifm-color-primary-darkest: #9f4343;
+    --ifm-color-primary-light: #ff8989;
+    --ifm-color-primary-lighter: #ff9898;
+    --ifm-color-primary-lightest: #ffc4c4;
+    --ifm-code-font-family: 'JetBrains Mono', monospace;
+}
+
+[data-theme='dark'] {
+    --ifm-color-primary: #FF6B6B;
+    --ifm-background-color: #1a1a1a;
+}
+
+.emoji-asm-code {
+    font-family: var(--ifm-code-font-family);
+    background: #f4f4f4;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 5px solid var(--ifm-color-primary);
+}
+
+.teacher-tip {
+    border: 1px solid #4ECDC4;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: rgba(78, 205, 196, 0.1);
+}

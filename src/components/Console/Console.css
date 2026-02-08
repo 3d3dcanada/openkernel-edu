@@ -1,0 +1,111 @@
+.output-console {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.console-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.console-status {
+  font-size: 11px;
+}
+
+.status-running {
+  color: var(--warning);
+  animation: pulse 1s infinite;
+}
+
+.status-success {
+  color: var(--success);
+}
+
+.status-error {
+  color: var(--error);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.console-body {
+  flex: 1;
+  padding: 8px 12px;
+  min-height: 80px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+}
+
+.console-empty {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+  padding: 16px;
+}
+
+.console-line {
+  display: flex;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.console-prompt {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.console-value {
+  color: var(--text);
+}
+
+.console-error {
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  margin-top: 4px;
+  background: var(--error-bg);
+  border-radius: 4px;
+  color: var(--error);
+  font-size: 13px;
+}
+
+.error-icon {
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--error);
+  color: white;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.console-complete {
+  text-align: center;
+  padding: 8px;
+  color: var(--success);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.console-footer {
+  padding: 4px 12px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text-dim);
+}

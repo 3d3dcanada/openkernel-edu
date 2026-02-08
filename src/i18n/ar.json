@@ -1,0 +1,45 @@
+{
+  "app": {
+    "title": "OpenKernel EDU",
+    "subtitle": "تعلم علوم الحاسب بالرموز التعبيرية",
+    "tagline": "أكثر منصة تعليم علوم الحاسب سهولة في الوصول في العالم"
+  },
+  "nav": {
+    "editor": "المحرر",
+    "tutorials": "الدروس",
+    "examples": "الأمثلة",
+    "reference": "المرجع",
+    "settings": "الإعدادات"
+  },
+  "editor": {
+    "placeholder": "اكتب برنامجك التعبيري هنا...",
+    "run": "تشغيل",
+    "step": "خطوة",
+    "reset": "إعادة تعيين",
+    "speed": "السرعة"
+  },
+  "cpu": {
+    "title": "سجلات وحدة المعالجة",
+    "register": "سجل",
+    "value": "القيمة"
+  },
+  "console": {
+    "title": "وحدة الإخراج",
+    "empty": "شغّل برنامجاً لترى النتيجة هنا",
+    "error": "خطأ",
+    "success": "تم تنفيذ البرنامج بنجاح!"
+  },
+  "tutorial": {
+    "title": "الدروس",
+    "step": "الخطوة {{current}} من {{total}}",
+    "hint": "تلميح",
+    "next": "التالي",
+    "previous": "السابق",
+    "complete": "مكتمل!",
+    "difficulty": {
+      "beginner": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدم"
+    }
+  }
+}

@@ -1,0 +1,126 @@
+.opcode-reference {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.category-tab {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-alt);
+  color: var(--text-dim);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.category-tab:hover {
+  background: var(--hover);
+  border-color: var(--accent);
+}
+
+.category-tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.opcode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.opcode-category {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.category-header {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.category-desc {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.opcode-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.opcode-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-alt);
+  transition: all 0.15s;
+}
+
+.opcode-item:hover {
+  border-color: var(--accent);
+  background: var(--hover);
+}
+
+.opcode-emoji {
+  font-size: 22px;
+  min-width: 36px;
+  text-align: center;
+}
+
+.opcode-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.opcode-name {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+}
+
+.opcode-desc {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.opcode-try {
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.opcode-try:hover {
+  background: var(--accent);
+  color: white;
+}

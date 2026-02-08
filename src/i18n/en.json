@@ -1,0 +1,100 @@
+{
+  "app": {
+    "title": "OpenKernel EDU",
+    "subtitle": "Learn Computer Science with Emoji",
+    "tagline": "The world's most accessible CS education platform"
+  },
+  "nav": {
+    "editor": "Editor",
+    "tutorials": "Tutorials",
+    "examples": "Examples",
+    "reference": "Reference",
+    "settings": "Settings"
+  },
+  "editor": {
+    "placeholder": "Write your emoji program here...",
+    "run": "Run",
+    "step": "Step",
+    "reset": "Reset",
+    "speed": "Speed",
+    "lineCount": "{{count}} lines"
+  },
+  "cpu": {
+    "title": "CPU Registers",
+    "register": "Register",
+    "value": "Value",
+    "programCounter": "Program Counter",
+    "stackPointer": "Stack Pointer",
+    "flags": "Flags",
+    "zero": "Zero",
+    "negative": "Negative",
+    "cycles": "Cycles"
+  },
+  "memory": {
+    "title": "Memory (256 bytes)",
+    "address": "Address",
+    "value": "Value",
+    "used": "{{count}} bytes used"
+  },
+  "console": {
+    "title": "Output Console",
+    "empty": "Run a program to see output here",
+    "error": "Error",
+    "success": "Program completed successfully!",
+    "running": "Running...",
+    "halted": "Program halted"
+  },
+  "tutorial": {
+    "title": "Tutorials",
+    "progress": "Progress",
+    "step": "Step {{current}} of {{total}}",
+    "hint": "Show Hint",
+    "next": "Next",
+    "previous": "Previous",
+    "complete": "Complete!",
+    "tryIt": "Try it!",
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "minutes": "{{count}} min"
+  },
+  "examples": {
+    "title": "Example Programs",
+    "load": "Load",
+    "categories": {
+      "basics": "Basics",
+      "algorithms": "Algorithms",
+      "games": "Games",
+      "advanced": "Advanced"
+    }
+  },
+  "reference": {
+    "title": "Opcode Reference",
+    "opcode": "Emoji",
+    "name": "Name",
+    "description": "Description",
+    "usage": "Usage"
+  },
+  "errors": {
+    "unknownInstruction": "Unknown instruction: \"{{emoji}}\"",
+    "divisionByZero": "Division by zero!",
+    "stackUnderflow": "Stack is empty - nothing to pop!",
+    "memoryOutOfBounds": "Memory address {{address}} is out of bounds (0-255)",
+    "infiniteLoop": "Possible infinite loop detected. Program stopped after {{cycles}} cycles.",
+    "noHalt": "Your program doesn't have a ⏹️ (HALT) instruction at the end."
+  },
+  "settings": {
+    "darkMode": "Dark Mode",
+    "language": "Language",
+    "speed": "Execution Speed",
+    "showMemory": "Show Memory Grid"
+  },
+  "achievements": {
+    "firstProgram": "First Program!",
+    "speedDemon": "Speed Demon",
+    "allLessons": "Scholar",
+    "polyglot": "Polyglot"
+  }
+}

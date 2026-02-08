@@ -1,0 +1,213 @@
+/* OpenKernel EDU - Main Layout */
+
+/* =========== Header =========== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-logo {
+  font-size: 22px;
+}
+
+.app-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .app-subtitle { display: inline; }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-btn:hover {
+  background: var(--hover);
+  border-color: var(--accent);
+}
+
+.header-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.lang-select {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* =========== Tab Navigation =========== */
+.tab-nav {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background: var(--hover);
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* =========== Main Layout =========== */
+.app-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100vh - 48px);
+}
+
+/* Sidebar */
+.app-sidebar {
+  width: 320px;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  overflow-y: auto;
+  padding: 12px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Center: Editor */
+.app-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.editor-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Right Panel: Visualizer */
+.app-right {
+  width: 280px;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  overflow-y: auto;
+  padding: 12px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* =========== Responsive =========== */
+@media (max-width: 1024px) {
+  .app-sidebar {
+    width: 260px;
+  }
+  .app-right {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .app-sidebar {
+    width: 100%;
+    max-height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-sidebar.collapsed {
+    max-height: 0;
+  }
+
+  .app-right {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    max-height: 300px;
+  }
+}
+
+/* =========== RTL Support (Arabic) =========== */
+[dir="rtl"] .app-sidebar {
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+
+[dir="rtl"] .app-right {
+  border-left: none;
+  border-right: 1px solid var(--border);
+}

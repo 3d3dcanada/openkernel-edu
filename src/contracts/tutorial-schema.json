@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://openkernel.edu/schemas/tutorial-lesson.v1.json",
+  "title": "OpenKernel EDU Tutorial Lesson",
+  "description": "Schema for authoring tutorial lessons for the OpenKernel EDU platform",
+  "type": "object",
+  "required": ["id", "version", "title", "description", "difficulty", "estimatedMinutes", "steps"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^lesson-[a-z0-9-]+$",
+      "description": "Unique lesson identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the lesson"
+    },
+    "title": {
+      "$ref": "#/definitions/multilingualText"
+    },
+    "description": {
+      "$ref": "#/definitions/multilingualText"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"]
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 120
+    },
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["emoji", "name", "category"],
+        "properties": {
+          "emoji": { "type": "string" },
+          "name": { "type": "string" },
+          "category": { "type": "string" }
+        }
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/lessonStep"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "author": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "definitions": {
+    "multilingualText": {
+      "type": "object",
+      "required": ["en"],
+      "properties": {
+        "en": { "type": "string", "description": "English (required)" },
+        "es": { "type": "string", "description": "Spanish" },
+        "fr": { "type": "string", "description": "French" },
+        "zh": { "type": "string", "description": "Chinese (Simplified)" },
+        "ar": { "type": "string", "description": "Arabic" },
+        "hi": { "type": "string", "description": "Hindi" },
+        "pt": { "type": "string", "description": "Portuguese" },
+        "ru": { "type": "string", "description": "Russian" }
+      },
+      "additionalProperties": false
+    },
+    "lessonStep": {
+      "type": "object",
+      "required": ["id", "instruction", "emojiCode"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^step-[a-z0-9-]+$"
+        },
+        "instruction": {
+          "$ref": "#/definitions/multilingualText"
+        },
+        "emojiCode": {
+          "type": "string",
+          "description": "Emoji program code for this step"
+        },
+        "expectedOutput": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Expected console output lines"
+        },
+        "hint": {
+          "$ref": "#/definitions/multilingualText"
+        },
+        "explanation": {
+          "$ref": "#/definitions/multilingualText"
+        },
+        "validation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/validationRule"
+          }
+        },
+        "allowFreeform": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "validationRule": {
+      "type": "object",
+      "required": ["type", "value"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["output_matches", "contains_opcode", "register_equals", "custom"]
+        },
+        "value": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

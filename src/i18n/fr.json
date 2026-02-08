@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "OpenKernel EDU",
+    "subtitle": "Apprenez l'Informatique avec des Emoji",
+    "tagline": "La plateforme d'éducation informatique la plus accessible au monde"
+  },
+  "nav": {
+    "editor": "Éditeur",
+    "tutorials": "Tutoriels",
+    "examples": "Exemples",
+    "reference": "Référence",
+    "settings": "Paramètres"
+  },
+  "editor": {
+    "placeholder": "Écrivez votre programme emoji ici...",
+    "run": "Exécuter",
+    "step": "Étape",
+    "reset": "Réinitialiser",
+    "speed": "Vitesse",
+    "lineCount": "{{count}} lignes"
+  },
+  "cpu": {
+    "title": "Registres CPU",
+    "register": "Registre",
+    "value": "Valeur",
+    "programCounter": "Compteur de Programme",
+    "flags": "Drapeaux",
+    "cycles": "Cycles"
+  },
+  "console": {
+    "title": "Console de Sortie",
+    "empty": "Exécutez un programme pour voir la sortie ici",
+    "error": "Erreur",
+    "success": "Programme terminé avec succès !"
+  },
+  "tutorial": {
+    "title": "Tutoriels",
+    "progress": "Progrès",
+    "step": "Étape {{current}} sur {{total}}",
+    "hint": "Indice",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "complete": "Terminé !",
+    "tryIt": "Essayez !",
+    "difficulty": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé"
+    }
+  }
+}

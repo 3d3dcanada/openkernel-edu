@@ -1,0 +1,318 @@
+openapi: 3.1.0
+info:
+  title: OpenKernel EDU API
+  version: 1.0.0
+  description: Educational platform API for learning emoji programming
+servers:
+  - url: /api/v1
+    description: V1 API
+
+components:
+  schemas:
+    Lesson:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        emojiConcepts:
+          type: array
+          items:
+            type: string
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        estimatedMins:
+          type: integer
+        prerequisites:
+          type: array
+          items:
+            type: string
+            format: uuid
+    
+    LessonStep:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        stepNumber:
+          type: integer
+        instruction:
+          type: string
+        emojiCode:
+          type: string
+        expectedOutput:
+          type: string
+          nullable: true
+        hint:
+          type: string
+          nullable: true
+
+    Progress:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lessonId:
+          type: string
+          format: uuid
+        completedSteps:
+          type: array
+          items:
+            type: integer
+        currentStep:
+          type: integer
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+    
+    ParseResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        instructions:
+          type: array
+          items:
+            type: object
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              line: 
+                type: integer
+              message:
+                type: string
+
+    RunResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        output:
+          type: array
+          items:
+            type: string
+        state:
+          type: object
+          properties:
+            registers:
+              type: object
+            programCounter:
+              type: integer
+
+paths:
+  /lessons:
+    get:
+      summary: List all lessons
+      responses:
+        '200':
+          description: List of lessons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lesson'
+
+  /lessons/{id}:
+    get:
+      summary: Get lesson details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lesson details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+  
+  /lessons/{id}/steps:
+    get:
+      summary: Get lesson steps
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lesson steps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LessonStep'
+
+  /lessons/{id}/validate-step:
+    post:
+      summary: Validate step submission
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stepNumber:
+                  type: integer
+                userCode:
+                  type: string
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  passed:
+                    type: boolean
+                  output:
+                    type: array
+                    items:
+                      type: string
+
+  /progress/me:
+    get:
+      summary: Get user progress
+      responses:
+        '200':
+          description: User progress stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalLessons:
+                    type: integer
+                  progress:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Progress'
+
+  /progress/{lesson_id}/start:
+    post:
+      summary: Start a lesson
+      parameters:
+        - name: lesson_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Progress started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Progress'
+
+  /execute/parse:
+    post:
+      summary: Parse emoji program
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+      responses:
+        '200':
+          description: Parse result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParseResponse'
+
+  /execute/run:
+    post:
+      summary: Run program
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                input:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Execution result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunResponse'
+
+  /execute/step:
+    post:
+      summary: Execute single step
+      description: Create session or step existing session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sessionId:
+                  type: string
+                  format: uuid
+                code:
+                  type: string
+                input:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Step result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                  running:
+                    type: boolean
+                  state:
+                    type: object

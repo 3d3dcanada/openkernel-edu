@@ -1,0 +1,200 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// =============================================================================
+// ENUMS
+// =============================================================================
+
+enum Difficulty {
+  beginner
+  intermediate
+  advanced
+}
+
+enum Category {
+  basics
+  algorithms
+  games
+}
+
+enum AchievementType {
+  first_program
+  speed_demon
+  polyglot
+  all_lessons
+  streak_7_days
+  fibonacci_master
+  loop_wizard
+  memory_explorer
+}
+
+// =============================================================================
+// LESSONS
+// =============================================================================
+
+/// Tutorial lessons with multilingual support
+model Lesson {
+  id            String   @id @default(uuid())
+  /// JSON object with language codes as keys: { "en": "...", "es": "...", ... }
+  title         Json
+  /// JSON object with language codes as keys
+  description   Json
+  /// Array of emoji strings taught in this lesson
+  emojiConcepts String[]
+  difficulty    Difficulty
+  estimatedMins Int
+  /// Array of lesson UUIDs that must be completed first
+  prerequisites String[]
+  tags          String[]
+  author        String?
+  version       String   @default("1.0.0")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  steps    LessonStep[]
+  progress UserProgress[]
+
+  @@index([difficulty])
+  @@index([createdAt])
+}
+
+// =============================================================================
+// LESSON STEPS
+// =============================================================================
+
+/// Individual steps within a lesson
+model LessonStep {
+  id              String @id @default(uuid())
+  lessonId        String
+  lesson          Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  stepNumber      Int
+  /// JSON object with language codes as keys
+  instruction     Json
+  /// Emoji code example for this step
+  emojiCode       String
+  /// Expected output lines (optional)
+  expectedOutput  String[]
+  /// JSON object with language codes as keys (optional)
+  hint            Json?
+  /// JSON object with language codes as keys (optional)
+  explanation     Json?
+  /// Validation rules as JSON
+  validationLogic Json?
+
+  @@unique([lessonId, stepNumber])
+  @@index([lessonId])
+}
+
+// =============================================================================
+// USER PROGRESS
+// =============================================================================
+
+/// Tracks user progress through lessons
+model UserProgress {
+  id             String    @id @default(uuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId       String
+  lesson         Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  /// Array of completed step numbers
+  completedSteps Int[]
+  currentStep    Int       @default(0)
+  startedAt      DateTime  @default(now())
+  completedAt    DateTime?
+  timeSpentSecs  Int       @default(0)
+  hintsUsed      Int       @default(0)
+  attempts       Int       @default(0)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
+
+// =============================================================================
+// EXAMPLE PROGRAMS
+// =============================================================================
+
+/// Curated example programs for learning and inspiration
+model ExampleProgram {
+  id          String   @id @default(uuid())
+  /// JSON object with language codes as keys
+  title       Json
+  /// JSON object with language codes as keys
+  description Json
+  /// The emoji program code
+  emojiCode   String
+  category    Category
+  difficulty  Difficulty
+  upvotes     Int      @default(0)
+  /// Optional author ID for community submissions
+  authorId    String?
+  /// Expected output when running the program
+  expectedOutput String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([difficulty])
+  @@index([authorId])
+  @@index([upvotes])
+}
+
+// =============================================================================
+// ACHIEVEMENTS
+// =============================================================================
+
+/// User achievement records
+model Achievement {
+  id              String          @id @default(uuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementType AchievementType
+  earnedAt        DateTime        @default(now())
+  /// Additional metadata about how the achievement was earned
+  metadata        Json?
+
+  @@unique([userId, achievementType])
+  @@index([userId])
+  @@index([earnedAt])
+}
+
+// =============================================================================
+// AUTHENTICATION
+// =============================================================================
+
+model User {
+  id             String        @id @default(uuid())
+  email          String        @unique
+  passwordHash   String?       // Null for OAuth users
+  name           String?
+  avatarUrl      String?
+  role           UserRole      @default(STUDENT) // Maps to BUZZ Authority Levels
+  authorityLevel Int           @default(1)       // 0=Guest, 1=Student, 2=Teacher, 3=Admin
+  provider       String?       // "google", "github", "email"
+  providerId     String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  
+  // Relations
+  progress       UserProgress[]
+  achievements   Achievement[]
+  
+  @@index([email])
+  @@index([provider, providerId])
+}
+
+enum UserRole {
+  GUEST
+  STUDENT
+  TEACHER
+  ADMIN
+}

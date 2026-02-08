@@ -1,0 +1,115 @@
+.examples-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.examples-filter {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-btn {
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-alt);
+  color: var(--text-dim);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover {
+  background: var(--hover);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.examples-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.example-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-alt);
+  transition: all 0.15s;
+}
+
+.example-card:hover {
+  border-color: var(--accent);
+}
+
+.example-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.example-difficulty {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.diff-beginner { background: #4ecdc433; color: var(--success); }
+.diff-intermediate { background: #f3818133; color: var(--warning); }
+.diff-advanced { background: #aa96da33; color: var(--info); }
+
+.example-desc {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.example-preview {
+  margin: 0;
+  padding: 8px;
+  background: var(--bg);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  overflow: hidden;
+  white-space: pre-wrap;
+  max-height: 60px;
+}
+
+.example-load-btn {
+  align-self: flex-end;
+  padding: 4px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.example-load-btn:hover {
+  background: var(--accent);
+  color: white;
+}
