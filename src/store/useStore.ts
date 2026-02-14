@@ -1,4 +1,4 @@
-// OpenKernel EDU - Global State Management (Zustand)
+// OpenKernel EDU v2 - Global State Management (Zustand)
 // Single source of truth for the entire application
 
 import { create } from 'zustand';
@@ -14,6 +14,8 @@ interface LessonProgress {
   startedAt: number;
   completedAt?: number;
 }
+
+export type TabId = 'welcome' | 'beginner' | 'editor' | 'tutorials' | 'examples' | 'demos' | 'reference';
 
 interface AppStore {
   // Code editor
@@ -43,9 +45,25 @@ interface AppStore {
   completeStep: (lessonId: string, step: number) => void;
   completeLesson: (lessonId: string) => void;
 
+  // Welcome / Intro
+  hasSeenIntro: boolean;
+  setHasSeenIntro: (seen: boolean) => void;
+
+  // Beginner mode
+  beginnerMode: boolean;
+  setBeginnerMode: (on: boolean) => void;
+  beginnerStep: number;
+  setBeginnerStep: (step: number) => void;
+  activeWalkthroughId: string | null;
+  setActiveWalkthrough: (id: string | null) => void;
+
+  // Live demos
+  activeDemoId: string | null;
+  setActiveDemo: (id: string | null) => void;
+
   // UI state
-  activeTab: 'editor' | 'tutorials' | 'examples' | 'reference';
-  setActiveTab: (tab: 'editor' | 'tutorials' | 'examples' | 'reference') => void;
+  activeTab: TabId;
+  setActiveTab: (tab: TabId) => void;
   darkMode: boolean;
   toggleDarkMode: () => void;
   language: string;
@@ -59,10 +77,23 @@ interface AppStore {
   loadExample: (id: string) => void;
 }
 
+// Persistence helpers
+const loadPersisted = <T>(key: string, fallback: T): T => {
+  try {
+    const stored = localStorage.getItem(`openkernel-edu:${key}`);
+    return stored !== null ? JSON.parse(stored) : fallback;
+  } catch { return fallback; }
+};
+
+const persist = (key: string, value: unknown) => {
+  try { localStorage.setItem(`openkernel-edu:${key}`, JSON.stringify(value)); } catch {}
+};
+
 const createInitialVM = (): VirtualMachine => new VirtualMachine();
 
 export const useStore = create<AppStore>((set, get) => {
   const vm = createInitialVM();
+  const hasSeenIntro = loadPersisted('hasSeenIntro', false);
 
   return {
     // Code editor
@@ -109,7 +140,6 @@ export const useStore = create<AppStore>((set, get) => {
     stepProgram: () => {
       const { vm, compilationResult, code } = get();
 
-      // If no program loaded, compile and load
       if (!compilationResult || vm.getState().cpu.halted) {
         const result = compile(code);
         set({ compilationResult: result });
@@ -180,13 +210,41 @@ export const useStore = create<AppStore>((set, get) => {
       });
     },
 
+    // Welcome / Intro
+    hasSeenIntro,
+    setHasSeenIntro: (seen) => {
+      persist('hasSeenIntro', seen);
+      set({ hasSeenIntro: seen });
+    },
+
+    // Beginner mode
+    beginnerMode: loadPersisted('beginnerMode', false),
+    setBeginnerMode: (on) => {
+      persist('beginnerMode', on);
+      set({ beginnerMode: on });
+    },
+    beginnerStep: 0,
+    setBeginnerStep: (step) => set({ beginnerStep: step }),
+    activeWalkthroughId: null,
+    setActiveWalkthrough: (id) => set({ activeWalkthroughId: id, beginnerStep: 0 }),
+
+    // Live demos
+    activeDemoId: null,
+    setActiveDemo: (id) => set({ activeDemoId: id }),
+
     // UI state
-    activeTab: 'editor',
+    activeTab: hasSeenIntro ? 'editor' : 'welcome',
     setActiveTab: (tab) => set({ activeTab: tab }),
-    darkMode: true,
-    toggleDarkMode: () => set((s) => ({ darkMode: !s.darkMode })),
-    language: 'en',
-    setLanguage: (lang) => set({ language: lang }),
+    darkMode: loadPersisted('darkMode', true),
+    toggleDarkMode: () => set((s) => {
+      persist('darkMode', !s.darkMode);
+      return { darkMode: !s.darkMode };
+    }),
+    language: loadPersisted('language', 'en'),
+    setLanguage: (lang) => {
+      persist('language', lang);
+      set({ language: lang });
+    },
     sidebarOpen: true,
     toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
     showMemoryGrid: false,

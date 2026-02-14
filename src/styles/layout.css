@@ -116,7 +116,16 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  height: calc(100vh - 48px);
+  height: calc(100vh - 96px);
+}
+
+.app-main-fullscreen {
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.tab-emoji {
+  font-size: 14px;
 }
 
 /* Sidebar */

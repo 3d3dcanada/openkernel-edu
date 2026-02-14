@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useStore } from './store/useStore';
+import { useStore, TabId } from './store/useStore';
+import Welcome from './components/Welcome/Welcome';
+import BeginnerMode from './components/BeginnerMode/BeginnerMode';
 import CodeEditor from './components/CodeEditor/CodeEditor';
 import CPUView from './components/Visualizer/CPUView';
 import MemoryGrid from './components/Visualizer/MemoryGrid';
@@ -9,9 +11,24 @@ import Controls from './components/Controls/Controls';
 import TutorialSidebar from './components/Tutorial/TutorialSidebar';
 import ExamplesPanel from './components/Examples/ExamplesPanel';
 import OpcodeReference from './components/Reference/OpcodeReference';
+import DemosPanel from './components/Demos/DemosPanel';
+import DemoViewer from './components/Demos/DemoViewer';
 import { SUPPORTED_LANGUAGES } from './i18n';
 import './styles/globals.css';
 import './styles/layout.css';
+
+const TAB_CONFIG: { id: TabId; emoji: string; labelKey: string }[] = [
+  { id: 'welcome', emoji: '\u{1F3E0}', labelKey: 'nav.welcome' },
+  { id: 'beginner', emoji: '\u{1F31F}', labelKey: 'nav.beginner' },
+  { id: 'editor', emoji: '\u{270F}\uFE0F', labelKey: 'nav.editor' },
+  { id: 'tutorials', emoji: '\u{1F4DA}', labelKey: 'nav.tutorials' },
+  { id: 'examples', emoji: '\u{1F4CB}', labelKey: 'nav.examples' },
+  { id: 'demos', emoji: '\u{1F680}', labelKey: 'nav.demos' },
+  { id: 'reference', emoji: '\u{1F4D6}', labelKey: 'nav.reference' },
+];
+
+const FULLSCREEN_TABS = new Set<TabId>(['welcome', 'beginner', 'demos']);
+const SIDEBAR_TABS = new Set<TabId>(['tutorials', 'examples', 'reference']);
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -21,6 +38,7 @@ function App() {
     language, setLanguage,
     sidebarOpen, toggleSidebar,
     showMemoryGrid, toggleMemoryGrid,
+    activeDemoId,
   } = useStore();
 
   useEffect(() => {
@@ -37,9 +55,12 @@ function App() {
       case 'tutorials': return <TutorialSidebar />;
       case 'examples': return <ExamplesPanel />;
       case 'reference': return <OpcodeReference />;
-      default: return <TutorialSidebar />;
+      default: return null;
     }
   };
+
+  const isFullscreen = FULLSCREEN_TABS.has(activeTab);
+  const hasSidebar = SIDEBAR_TABS.has(activeTab);
 
   return (
     <div className="app">
@@ -52,28 +73,32 @@ function App() {
         </div>
 
         <div className="header-actions">
-          <button
-            className="header-btn"
-            onClick={toggleSidebar}
-            aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-          >
-            {sidebarOpen ? '&#9664;' : '&#9654;'}
-          </button>
+          {!isFullscreen && (
+            <>
+              <button
+                className="header-btn"
+                onClick={toggleSidebar}
+                aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+              >
+                {sidebarOpen ? '\u25C0' : '\u25B6'}
+              </button>
 
-          <button
-            className={`header-btn ${showMemoryGrid ? 'active' : ''}`}
-            onClick={toggleMemoryGrid}
-            aria-label="Toggle memory grid"
-          >
-            &#128190;
-          </button>
+              <button
+                className={`header-btn ${showMemoryGrid ? 'active' : ''}`}
+                onClick={toggleMemoryGrid}
+                aria-label="Toggle memory grid"
+              >
+                &#128190;
+              </button>
+            </>
+          )}
 
           <button
             className="header-btn"
             onClick={toggleDarkMode}
             aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {darkMode ? '&#9728;&#65039;' : '&#127769;'}
+            {darkMode ? '\u2600\uFE0F' : '\u{1F319}'}
           </button>
 
           <select
@@ -93,43 +118,51 @@ function App() {
 
       {/* Tab Navigation */}
       <nav className="tab-nav" role="tablist" aria-label="Main navigation">
-        {(['editor', 'tutorials', 'examples', 'reference'] as const).map(tab => (
+        {TAB_CONFIG.map(tab => (
           <button
-            key={tab}
-            className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab)}
+            key={tab.id}
+            className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
             role="tab"
-            aria-selected={activeTab === tab}
+            aria-selected={activeTab === tab.id}
           >
-            {t(`nav.${tab}`)}
+            <span className="tab-emoji" aria-hidden="true">{tab.emoji}</span> {t(tab.labelKey)}
           </button>
         ))}
       </nav>
 
-      {/* Main Layout */}
-      <main className="app-main">
-        {/* Sidebar */}
-        {sidebarOpen && activeTab !== 'editor' && (
-          <aside className="app-sidebar" role="complementary" aria-label="Sidebar">
-            {renderSidebarContent()}
-          </aside>
-        )}
+      {/* Main Content */}
+      {isFullscreen ? (
+        <main className="app-main app-main-fullscreen">
+          {activeTab === 'welcome' && <Welcome />}
+          {activeTab === 'beginner' && <BeginnerMode />}
+          {activeTab === 'demos' && <DemosPanel />}
+        </main>
+      ) : (
+        <main className="app-main">
+          {sidebarOpen && hasSidebar && (
+            <aside className="app-sidebar" role="complementary" aria-label="Sidebar">
+              {renderSidebarContent()}
+            </aside>
+          )}
 
-        {/* Center: Editor + Controls + Console */}
-        <div className="app-center">
-          <Controls />
-          <div className="editor-wrapper">
-            <CodeEditor />
+          <div className="app-center">
+            <Controls />
+            <div className="editor-wrapper">
+              <CodeEditor />
+            </div>
+            <OutputConsole />
           </div>
-          <OutputConsole />
-        </div>
 
-        {/* Right: Visualizer */}
-        <aside className="app-right" role="complementary" aria-label="CPU and Memory visualizer">
-          <CPUView />
-          {showMemoryGrid && <MemoryGrid />}
-        </aside>
-      </main>
+          <aside className="app-right" role="complementary" aria-label="CPU and Memory visualizer">
+            <CPUView />
+            {showMemoryGrid && <MemoryGrid />}
+          </aside>
+        </main>
+      )}
+
+      {/* Demo Viewer Overlay */}
+      {activeDemoId && <DemoViewer />}
     </div>
   );
 }
